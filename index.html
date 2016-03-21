@@ -4,14 +4,171 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>appGame - Robert Rorog</title>
-  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+  <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css"/>
+  <link rel="stylesheet" type="text/css" href="assets/css/appGame.css"/>
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.min.js"></script>
 </head>
-<body>
-<h1 class="text-center">appGame v.001</h1>
+<body ng-controller="mainCtrl">
+
+<div class="container">   
+    
+    
+<!-- Section Resources -->
+
+<section id="top">
+    <div class="row">
+       
+        <div class="col-sm-3 col-xs-12">
+            <h1 class="text-center">appGame v.002</h1>
+        </div>
+        
+        <div class="col-sm-9 col-xs-12">
+           
+            <div class="row top-m10" ng-controller="minesInitCtrl">               
+                <div class="col-sm-6 col-xs-12" ng-repeat="mine in mines">
+                    <div class="ui resources" >{{mine.name}}: 
+                        <span ng-bind="{{mine.modelName}}" id="{{mine.modelName}}">{{mine.resources.res[0]}}</span>
+                    </div> 
+                </div>
+            </div>
+             
+        </div>
+    </div>    
+</section>
+    
+    
+    
+    
+    
+    
+    
+    
+<div class="main" ng-app="myApp" ng-controller="MyCtrl"> 
+    
+    <div class="list">
+        <label class="item item-radio" ng-repeat="breakfastRecipe in breakfastRecipes">
+            <input type="radio" ng-model="breakfast.favourite" ng-value="breakfastRecipe.name"  name="{{breakfast.favourite}}" />
+            {{breakfastRecipe.name}}
+        </label><br />
+    </div>
+    
+    
+    <button ng-click="addItem()">Add Another</button>
+    <div>
+        <ul>
+            <li ng-repeat="breakfastItem in breakfast  track by $index">{{breakfastItem}}</li>
+        </ul>
+    </div>
+</div>
+    
+    
+    
+    
+    
+    
+<!-- Section Minings -->
+
+    <div class="row">
+        <div class="col-sm-12 col-xs-12">
+            
+            <div class="row">
+                
+            <div class="col-sm-3 col-xs-12">
+                <div class="ui mine">
+                    <span class="center-block">Gold Mine</span>
+                    <img src="https://placeholdit.imgix.net/~text?txtsize=60&txt=GOLD+LVL+1&w=220&h=220" class="img-responsive center-block" />
+                    <p>
+                        <button type="button" class="btn btn-success" ng-click='clickLevelUp("mineGold")'>
+                            Up Level 
+                            <span ng-bind="upGold" id="upGold">1</span>
+                        </button>
+                        <button type="button" class="btn btn-info">Help</button>
+                    </p>
+                </div>
+            </div>  
+                
+            <div class="col-sm-3 col-xs-12">
+                <div class="ui mine">
+                    <span class="center-block">Mine Stone</span>
+                    <img src="https://placeholdit.imgix.net/~text?txtsize=60&txt=STONE+LVL+1&w=220&h=220" class="img-responsive center-block" />
+                    <p>
+                        <button type="button" class="btn btn-success" ng-click='clickLevelUp("mineStone")'>
+                            Up Level 
+                            <span ng-bind="upStone" id="upStone">1</span>
+                        </button>
+                        <button type="button" class="btn btn-info">Help</button>
+                    </p>
+                </div>
+            </div>   
+                
+            <div class="col-sm-3 col-xs-12">
+                <div class="ui mine">
+                    <span class="center-block">Mine Wood</span>
+                    <img src="https://placeholdit.imgix.net/~text?txtsize=60&txt=WOOD+LVL+1&w=220&h=220" class="img-responsive center-block" />
+                    <p>
+                        <button type="button" class="btn btn-success" ng-click='clickLevelUp("mineWood")'>
+                            Up Level 
+                            <span ng-bind="upWood" id="upWood">1</span>
+                        </button>
+                        <button type="button" class="btn btn-info">Help</button>
+                    </p>
+                </div>
+            </div>
+                
+            <div class="col-sm-3 col-xs-12">
+                <div class="ui mine">
+                    <span class="center-block">Storage</span>
+                    <div class="mineImage">
+                    <img src="https://placeholdit.imgix.net/~text?txtsize=60&txt=STORAGE+LVL+1&w=220&h=220" class="img-responsive center-block" />                    
+                    </div>
+                    <p>
+                        <button type="button" class="btn btn-success" ng-click='clickLevelUp("mineStorage")'>
+                            Up Level 
+                            <span ng-bind="upStorage" id="upStorage">1</span>
+                        </button>
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#granaryModal">Help</button>
+                    </p>
+                </div>
+            </div> 
+                
+            </div>    
+        </div>
+    </div>
+</div>
 
 
-<script src="js/bootstrap.min.js"></script> 
+<!-- Modal -->
+<div id="granaryModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Help - Storage, demand for raw materials</h4>
+      </div>
+      <div class="modal-body">
+          
+        <p>LVL 1 - Gold: 100, Stone: 200, Wood: 300</p>
+        <p>LVL 2 - Gold: 100, Stone: 200, Wood: 300</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>    
+    
+
+
+<div ng-controller="myCurrentTimeCtrl" class="footerTime">
+    Your current time is: <span my-current-time="format"></span>
+</div>
+    
+<script src="app/appGame.js"></script> 
+<script src="assets/js/jquery.min.js"></script> 
+<script src="assets/js/bootstrap.min.js"></script> 
 </body>
 </html>

@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: rejestruj.html
+Disallow: loguj.html
