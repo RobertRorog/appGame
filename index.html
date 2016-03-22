@@ -10,7 +10,9 @@
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.min.js"></script>
 </head>
 <body ng-controller="mainCtrl">
-
+<div id="mydiv">
+    <img src="assets/img/ajax-loader.gif" class="ajax-loader"/>
+</div>
 <div class="container">   
     
     
@@ -25,10 +27,10 @@
         
         <div class="col-sm-9 col-xs-12">
            
-            <div class="row top-m10" ng-controller="minesInitCtrl">               
-                <div class="col-sm-6 col-xs-12" ng-repeat="mine in mines">
+            <div class="row top-m10">               
+                <div class="col-sm-6 col-xs-12" ng-repeat="mine in listOfMines">
                     <div class="ui resources" >{{mine.name}}: 
-                        <span ng-bind="{{mine.modelName}}" id="{{mine.modelName}}">{{mine.resources.res[0]}}</span>
+                        <span ng-bind="{{mine.modelName}}" id="{{mine.modelName}}">{{mine.resources.res}}</span>
                     </div> 
                 </div>
             </div>
@@ -37,35 +39,7 @@
     </div>    
 </section>
     
-    
-    
-    
-    
-    
-    
-    
-<div class="main" ng-app="myApp" ng-controller="MyCtrl"> 
-    
-    <div class="list">
-        <label class="item item-radio" ng-repeat="breakfastRecipe in breakfastRecipes">
-            <input type="radio" ng-model="breakfast.favourite" ng-value="breakfastRecipe.name"  name="{{breakfast.favourite}}" />
-            {{breakfastRecipe.name}}
-        </label><br />
-    </div>
-    
-    
-    <button ng-click="addItem()">Add Another</button>
-    <div>
-        <ul>
-            <li ng-repeat="breakfastItem in breakfast  track by $index">{{breakfastItem}}</li>
-        </ul>
-    </div>
-</div>
-    
-    
-    
-    
-    
+
     
 <!-- Section Minings -->
 

@@ -1,6 +1,6 @@
 [
-    {"id":1,"name-mine" :"Gold Mine", "modelName" :"resGold", "name" :"Gold","resources":   {"lvl":1,"res":[100,20]}},
-    {"id":2,"name-mine" :"Mine Stone", "modelName" :"resStone", "name" :"Stone","resources": {"lvl":1,"res":[110,33]}},
-    {"id":3,"name-mine" :"Mine Wood", "modelName" :"resWood", "name" :"Wood","resources":   {"lvl":1,"res":[120,55]}},
-    {"id":4,"name-mine" :"Storage", "modelName" :"resStorage", "name" :"Storage","resources":  {"lvl":1,"res":[1250,1250]}}    
+    {"id":1,"name-mine" :"Gold Mine", "modelName" :"resGold", "name" :"Gold","resources":   {"lvl":1,"res":90}},
+    {"id":2,"name-mine" :"Mine Stone", "modelName" :"resStone", "name" :"Stone","resources": {"lvl":1,"res":120}},
+    {"id":3,"name-mine" :"Mine Wood", "modelName" :"resWood", "name" :"Wood","resources":   {"lvl":1,"res":130}},
+    {"id":4,"name-mine" :"Storage", "modelName" :"resStorage", "name" :"Storage","resources": {"lvl":1,"res":150}}    
 ]

@@ -1,25 +1,51 @@
+ var app = angular.module('appGame',[]),
+    tabMining = {"tempResGold":0, "tempResStone":0, "tempResWood":0, "tempResStorage":0,"init":0};
 
-var app = angular.module('appGame', []), timeOn=true,
-    tabMining = {"tempResGold":0, "tempResStone":0, "tempResWood":0, "tempResStorage":0};
 
 
-app.controller('mainCtrl', function($scope, $interval){   
-    $scope.resGold = 137;
-    $scope.resStone = 115;
-    $scope.resWood = 123;
-    $scope.resStorage = 140;
-    $scope.upGold = 1;
-    $scope.upStone = 1;
-    $scope.upWood = 1;
-    $scope.upStorage = 1;    
+app.controller('mainCtrl',
+    ['$rootScope', '$scope', '$interval', '$http', '$q', 'factoryMinesData','factoryUpdateMines', 
+    function($rootScope, $scope, $interval, $http, $q, factoryMinesData, factoryUpdateMines){   
 
-    tabMining.tempResGold = $scope.resGold;
-    tabMining.tempResStone = $scope.resStone;
-    tabMining.tempResWood = $scope.resWood;
-    tabMining.tempResStorage = $scope.resStorage;
+        $scope.loadFeed = function(url) {
+            
+            
+            factoryMinesData.getData().then(function(data){  
+                $scope.listOfMines   = data[1];
+                             
+                return data;
+            }).then(function(data){  
+               $scope.listDataMines   = data[0];
+                               
+                return data;
+            }).then(function(data){
+                console.log($scope.listOfMines);
+                console.log($scope.listDataMines);
+                
+               $scope.resGold       = data[1][0].resources.res;
+               $scope.resStone      = data[1][1].resources.res;
+               $scope.resWood       = data[1][2].resources.res;
+               $scope.resStorage    = data[1][3].resources.res;
 
-    
-    
+                $scope.upGold    = 1;
+                $scope.upStone   = 1;
+                $scope.upWood    = 1;
+                $scope.upStorage = 1;   
+
+                tabMining.tempResGold       = $scope.resGold;
+                tabMining.tempResStone      = $scope.resStone;
+                tabMining.tempResWood       = $scope.resWood;
+                tabMining.tempResStorage    = $scope.resStorage;
+                
+                $('#mydiv').hide();
+               
+            });  
+		}
+
+		$scope.loadFeed();
+        
+   
+   
     $scope.clickLevelUp = function(val){
         switch(val) {
             case 'mineStorage' :
@@ -42,6 +68,11 @@ app.controller('mainCtrl', function($scope, $interval){
             break;    
             case 'mineGold' :
                                 console.log(val);
+                                
+                                console.log('Gold: '+ $scope.resGold);
+                                console.log('Stone: '+ $scope.resStone);
+                                console.log('Wood: '+ $scope.resWood);
+                                
                                 $scope.upGold = $scope.upGold + 1;  
                                 $scope.resGold = $scope.resGold + 10;
                                 tabMining.tempResGold = $scope.resGold;
@@ -84,51 +115,45 @@ app.controller('mainCtrl', function($scope, $interval){
         
         $scope.resGold = parseInt(tabMining.tempResGold);
         $scope.resStone = parseInt(tabMining.tempResStone);
-        $scope.resWood = parseInt(tabMining.tempResWood);
+        $scope.resWood = parseInt(tabMining.tempResWood);        
+                                
     }, 1000);
+         
+    
+}]);
+
+
+app.factory('factoryUpdateMines', function myServiceFactory() {
+  return {
+      updateData: function(){
           
-});
+      }
+  }
+}); 
 
+app.factory('factoryMinesData', ['$http', '$q', function myServiceFactory( $http, $q) {
+  return {
+    getData: function() {
+      var urlBase = 'app/data/';
+      var ResourceDataURL = urlBase +'resource-data.json';
+      var ResourceInitURL = urlBase +'resource-init.json';
+ 
+      var defer = $q.defer();
+      var ResourceData = $http.get(ResourceDataURL, { cache: 'true'});
+      var ResourceInitData = $http.get(ResourceInitURL, { cache: 'true'});
+ 
+      $q.when( $q.all([ResourceData, ResourceInitData]) ).then(function(data) {
+        finalData = [data[0].data, data[1].data];
+        defer.resolve(finalData);
+      });
+      return defer.promise;
+    }
+  }
+}]);
 
+app.controller('myCurrentTimeCtrl', ['$scope', '$interval',function($scope, $interval) {}]);      
 
-
-app.controller('minesInitCtrl', function($scope, minesFactory){   
-    function init(){
-        minesFactory.getMinesInit().success(
-            function(data){
-                $scope.mines = data;
-            }
-        );       
-    }    
-    init();
-
-});
-
-app.factory('minesFactory', function($http){
-    var factory = {}, urlBase = 'app/data/';
-    
-    factory.getMines = function(){
-        return $http.get(urlBase +'resource-data.json');
-    };
-    
-    factory.getMinesInit = function(){
-        return $http.get(urlBase +'resource-init.json');
-    };
-    
-    return factory;
-});
-
-
-
-
-
-
-
-
-
-app.controller('myCurrentTimeCtrl', function($scope, $interval) {});      
-
-app.directive('myCurrentTime', function($interval, dateFilter) {
+app.directive('myCurrentTime',['$interval', 'dateFilter', function($interval, dateFilter) {
         return function(scope, element) {
           
           function updateTime() {
@@ -138,4 +163,4 @@ app.directive('myCurrentTime', function($interval, dateFilter) {
           $interval(updateTime, 1000);
         }
     }           
-);
+]);
