@@ -1,5 +1,6 @@
  var app = angular.module('appGame',[]),
-    tabMining = {"tempResGold":0, "tempResStone":0, "tempResWood":0, "tempResStorage":0,"init":0};
+     resis = [],
+     tabMining = {"tempResGold":0, "tempResStone":0, "tempResWood":0, "tempResStorage":0,"init":0};
 
 
 
@@ -21,6 +22,8 @@ app.controller('mainCtrl',
             }).then(function(data){
                 console.log($scope.listOfMines);
                 console.log($scope.listDataMines);
+                
+                for (var i = 0; i < 3; i++) resis[resis.length] = $scope.listOfMines[i].modelName;
                 
                $scope.resGold       = data[1][0].resources.res;
                $scope.resStone      = data[1][1].resources.res;
@@ -79,47 +82,32 @@ app.controller('mainCtrl',
             break;     
         }
     }
-    
-    
+       
     $interval(function() {
-        if (tabMining.tempResStorage > (tabMining.tempResGold +0.26)) {
-            tabMining.tempResGold = tabMining.tempResGold +1.26;
-            angular.element(resGold).removeClass('color-red');
-            angular.element(resGold).addClass('color-white');
-        }
-        else {
-            tabMining.tempResGold = tabMining.tempResStorage;
-            angular.element(resGold).addClass('color-red');
-        }
-        
-        if (tabMining.tempResStorage > (tabMining.tempResStone +1.26)) {
-            tabMining.tempResStone = tabMining.tempResStone +1.26;
-            angular.element(resStone).removeClass('color-red');
-            angular.element(resStone).addClass('color-white');
-        }
-        else {
-            tabMining.tempResStone = tabMining.tempResStorage;    
-            angular.element(resStone).addClass('color-red');
-        }
-        
-        if (tabMining.tempResStorage > (tabMining.tempResWood +2.26)) {
-            tabMining.tempResWood = tabMining.tempResWood +2.26;
-            angular.element(resWood).removeClass('color-red');
-            angular.element(resWood).addClass('color-white');
-        }
-        else {
-            tabMining.tempResWood = tabMining.tempResStorage;
-            angular.element(resWood).addClass('color-red');
-        }
-        
-        
-        $scope.resGold = parseInt(tabMining.tempResGold);
-        $scope.resStone = parseInt(tabMining.tempResStone);
-        $scope.resWood = parseInt(tabMining.tempResWood);        
-                                
+        for (var res in resis) {
+            if (resis.hasOwnProperty(res) && resis[res]) updateResources(resis[res]);
+           koparkiButon(res);    
+        }                            
     }, 1000);
-         
-    
+   
+    var updateResources = function (res){        
+        var dynamicVariableTabMining = eval('tabMining.temp'+res.ucfirst()),
+            element = eval(res);
+
+        dynamicVariableTabMining = $scope[res];
+
+        if (tabMining.tempResStorage > (dynamicVariableTabMining +0.26)) {
+            dynamicVariableTabMining = dynamicVariableTabMining +1.26;
+            angular.element(element).removeClass('color-red');
+            angular.element(element).addClass('color-white');
+        }
+        else {
+            dynamicVariableTabMining = tabMining.tempResStorage;
+            angular.element(element).addClass('color-red');
+        }
+        $scope[res] = parseInt(dynamicVariableTabMining);
+    };
+
 }]);
 
 
@@ -164,3 +152,9 @@ app.directive('myCurrentTime',['$interval', 'dateFilter', function($interval, da
         }
     }           
 ]);
+
+
+String.prototype.ucfirst = function()
+{
+    return this.charAt(0).toUpperCase() + this.substr(1);
+}
