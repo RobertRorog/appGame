@@ -86,7 +86,7 @@ app.controller('mainCtrl',
     $interval(function() {
         for (var res in resis) {
             if (resis.hasOwnProperty(res) && resis[res]) updateResources(resis[res]);
-           koparkiButon(res);    
+          //koparkiButon(res);    
         }                            
     }, 1000);
    
