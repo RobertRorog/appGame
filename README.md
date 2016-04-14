@@ -1,1 +1,1 @@
-# appGame
+# appGame in AngulerJS
