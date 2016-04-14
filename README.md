@@ -1,1 +1,1 @@
-# appGame in AngulerJS
+# appGame in AngularJS
